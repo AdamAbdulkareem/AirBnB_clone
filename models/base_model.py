@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-
-import uuid
-import datetime
-
 """
 This module defines all common attributes or methods for other classes.
 """
 
+import uuid
+import datetime
+
 
 class BaseModel:
+    """Base Class"""
     def __init__(self):
         """Instantiate the attributes of an object."""
         self.id = uuid.uuid4()
