@@ -33,3 +33,7 @@ class BaseModel:
         """
         self.__dict__["__class__"] = self.__class__.__name__
         return self.__dict__
+
+
+first_instance = BaseModel()
+print(first_instance)

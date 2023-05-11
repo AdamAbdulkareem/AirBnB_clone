@@ -19,7 +19,11 @@ class testBaseModel(unittest.TestCase):
         result = my_instance.updated_at
         excepted_result = datetime.datetime.now()
         self.assertEqual(result, excepted_result)
-
+    def test_to_dict(self):
+        my_instance = BaseModel()
+        result = my_instance.to_dict()
+        expected_result = my_instance.__dict__
+        self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
     unittest.main()
