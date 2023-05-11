@@ -4,7 +4,7 @@ import uuid
 import datetime
 
 """
-    This module defines all common attributes or methods for other classes.
+This module defines all common attributes or methods for other classes.
 """
 
 
