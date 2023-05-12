@@ -11,16 +11,18 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instantiate the attributes of an object."""
-        self.id = uuid.uuid4()
-        self.created_at = datetime.datetime.now().isoformat()
-        self.updated_at = datetime.datetime.now().isoformat()
-        self.created_at = datetime.datetime.strptime(
-            self.created_at, "%Y-%m-%dT%H:%M:%S.%f")
-        self.updated_at = datetime.datetime.strptime(
-            self.updated_at, "%Y-%m-%dT%H:%M:%S.%f")
-        for key, value in kwargs.items():
-            if key != '__class__':
-                setattr(self, key, value)
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "created_at":
+                    value = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                if key == "updated_at":
+                    value = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                if key != "__class__":
+                    setattr(self, key, value)
+        else:
+            self.id = uuid.uuid4()
+            self.created_at = datetime.datetime.now().isoformat()
+            self.updated_at = datetime.datetime.now().isoformat()
 
     def __str__(self):
         """Returns the object representation in a string format."""
