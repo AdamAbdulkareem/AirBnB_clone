@@ -9,11 +9,17 @@ import datetime
 class BaseModel:
     """Base Class"""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Instantiate the attributes of an object."""
         self.id = uuid.uuid4()
         self.created_at = datetime.datetime.now().isoformat()
         self.updated_at = datetime.datetime.now().isoformat()
+        self.created_at = datetime.datetime.strptime(
+            self.created_at, "%Y-%m-%dT%H:%M:%S.%f")
+        self.updated_at = datetime.datetime.strptime(
+            self.updated_at, "%Y-%m-%dT%H:%M:%S.%f")
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
     def __str__(self):
         """Returns the object representation in a string format."""
@@ -33,7 +39,3 @@ class BaseModel:
         """
         self.__dict__["__class__"] = self.__class__.__name__
         return self.__dict__
-
-
-first_instance = BaseModel()
-print(first_instance)
