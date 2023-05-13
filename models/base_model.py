@@ -4,7 +4,7 @@ This module defines all common attributes or methods for other classes
 """
 import uuid
 import datetime
-
+from .__init__ import storage
 
 class BaseModel:
     """Base Class"""
@@ -23,6 +23,8 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now().isoformat()
             self.updated_at = datetime.datetime.now().isoformat()
+            
+        storage.new()
 
     def __str__(self):
         """Returns the object representation in a string format."""
@@ -34,6 +36,8 @@ class BaseModel:
         current datetime
         """
         self.updated_at = datetime.datetime.now()
+        """Calls the save(self) method of storage"""
+        storage.save()
 
     def to_dict(self):
         """
