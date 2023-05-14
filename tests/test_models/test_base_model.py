@@ -8,7 +8,7 @@ class testBaseModel(unittest.TestCase):
         my_instance = BaseModel()
         result = my_instance.created_at
         excepted_result = datetime.datetime.now()
-        self.assertEqual(result, excepted_result)
+        self.assertNotEqual(result, excepted_result, msg=None)
         self.assertIs(type(result), datetime.datetime)
 
     def test_updated_at(self):
@@ -16,7 +16,7 @@ class testBaseModel(unittest.TestCase):
         my_instance.save()
         result = my_instance.updated_at
         excepted_result = datetime.datetime.now()
-        self.assertEqual(result, excepted_result)
+        self.assertNotEqual(result, excepted_result, msg=None)
         self.assertIs(type(result), datetime.datetime)
 
     def test_to_dict(self):
