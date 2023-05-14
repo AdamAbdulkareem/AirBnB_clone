@@ -15,44 +15,21 @@ class FileStorage:
         key = obj.__class__.__name__ + "." + str(obj.id)
         self.__objects[key] = obj
 
-    # def save(self):
-    #     json_object = {}
-
-    #     for key in self.__objects:
-    #         json_object[key] = self.__objects[key].to_dict()
-
-    #     with open(self.__file_path, mode="w", encoding="UTF8") as json_file:
-    #         json.dump(self.__objects, json_file)
-
-    # def reload(self):
-    #     try:
-    #         with open(self.__file_path, mode="r", encoding="UTF8") as json_file:
-    #             for key, value in json.load(json_file).items():
-    #                 attribute_value = eval(value["__class__"])(**value)
-    #                 self.__objects[key] = attribute_value
-
-    #     except FileNotFoundError:
-    #         pass
-
     def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
-
-        ''' create empty dictionary'''
         json_object = {}
-        """ fill dictionary with elements __objects """
+
         for key in self.__objects:
             json_object[key] = self.__objects[key].to_dict()
 
-        with open(self.__file_path, 'w') as f:
-            json.dump(json_object, f)
+        with open(self.__file_path, mode="w", encoding="UTF8") as json_file:
+            json.dump(self.__objects, json_file)
 
     def reload(self):
-        """ deserializes the JSON file to __objects """
         try:
-            with open(self.__file_path, 'r', encoding="UTF8") as f:
-                # jlo = json.load(f)
-                for key, value in json.load(f).items():
-                    attri_value = eval(value["__class__"])(**value)
-                    self.__objects[key] = attri_value
+            with open(self.__file_path, mode="r", encoding="UTF8") as json_file:
+                for key, value in json.load(json_file).items():
+                    attribute_value = eval(value["__class__"])(**value)
+                    self.__objects[key] = attribute_value
+
         except FileNotFoundError:
             pass
