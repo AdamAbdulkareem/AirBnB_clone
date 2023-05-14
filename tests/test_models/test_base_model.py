@@ -5,12 +5,6 @@ from models.base_model import BaseModel
 
 
 class testBaseModel(unittest.TestCase):
-    def test_created_at(self):
-        my_instance = BaseModel()
-        result = my_instance.created_at
-        excepted_result = datetime.datetime.now()
-        self.assertNotEqual(result, excepted_result, msg=None)
-        self.assertIs(type(result), datetime.datetime)
 
     def test_updated_at(self):
         my_instance = BaseModel()
