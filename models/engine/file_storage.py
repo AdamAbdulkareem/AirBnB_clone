@@ -16,20 +16,14 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
+        """serializes __objects to the JSON file (path: __file_path)"""
+
+        """ create empty dictionary"""
         json_object = {}
 
         for key in self.__objects:
             json_object[key] = self.__objects[key].to_dict()
 
+
         with open(self.__file_path, mode="w", encoding="UTF8") as json_file:
             json.dump(self.__objects, json_file)
-
-    def reload(self):
-        try:
-            with open(self.__file_path, mode="r", encoding="UTF8") as json_file:
-                for key, value in json.load(json_file).items():
-                    attribute_value = eval(value["__class__"])(**value)
-                    self.__objects[key] = attribute_value
-
-        except FileNotFoundError:
-            pass
