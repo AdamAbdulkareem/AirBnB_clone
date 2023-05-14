@@ -2,8 +2,10 @@
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """Serializes instances to a JSON file and Deserializes JSON file to instances"""
+
     __file_path = "file.json"
     __objects = {}
 
@@ -24,9 +26,9 @@ class FileStorage:
             json.dump(json_object, json_file)
 
     def reload(self):
-        """ deserializes the JSON file to __objects """
+        """deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path, 'r', encoding="UTF8") as f:
+            with open(self.__file_path, "r", encoding="UTF8") as f:
                 # jlo = json.load(f)
                 for key, value in json.load(f).items():
                     attri_value = eval(value["__class__"])(**value)
