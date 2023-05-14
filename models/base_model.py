@@ -22,17 +22,3 @@ class BaseModel:
         """Returns a dictionary containing all keys/values of __dict__ of the instance"""
         self.__dict__["__class__"] =  self.__class__.__name__
         return self.__dict__ 
-    
-my_model = BaseModel()
-my_model.name = "My First Model"
-my_model.my_number = 89
-print("-----------")
-print(my_model)
-print("-----------")
-my_model.save()
-print("-----------")
-print(my_model)
-print("-----------")
-my_model_json = my_model.to_dict()
-print(my_model_json)
-print("------------")
