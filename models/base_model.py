@@ -33,8 +33,14 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """Returns a dictionary containing all keys/values of __dict__ of the instance"""
-        self.__dict__["created_at"] = self.created_at.isoformat()
-        self.__dict__["updated_at"] = self.updated_at.isoformat()
-        self.__dict__["__class__"] = self.__class__.__name__
-        return self.__dict__
+        # """Returns a dictionary containing all keys/values of __dict__ of the instance"""
+        # self.__dict__["created_at"] = self.created_at.isoformat()
+        # self.__dict__["updated_at"] = self.updated_at.isoformat()
+        # self.__dict__["__class__"] = self.__class__.__name__
+        # return self.__dict__
+        """returns a dictionary with all keys/value of the instance"""
+        dict_copy = self.__dict__.copy()
+        dict_copy["created_at"] = self.created_at.isoformat()
+        dict_copy["updated_at"] = self.updated_at.isoformat()
+        dict_copy['__class__'] = self.__class__.__name__
+        return dict_copy
