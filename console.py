@@ -5,6 +5,10 @@ import cmd
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb)"
     
+    def emptyline(self):
+        """Do nothing on an empty line."""
+        pass
+    
     def do_EOF(self, arg):
         """EOF command to exit the program"""
         return True
