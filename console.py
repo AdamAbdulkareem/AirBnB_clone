@@ -3,6 +3,7 @@ import cmd
 """This module contains the entry point of the command interpreter"""
 
 class HBNBCommand(cmd.Cmd):
+    """Entry point of the command interpreter"""
     prompt = "(hbnb)"
     
     def emptyline(self):
