@@ -20,7 +20,6 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        new_instance = BaseModel()
         args = arg.split()
         if not arg:
             print("** class name missing **")
