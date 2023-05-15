@@ -2,11 +2,13 @@
 import cmd
 import models
 from models.base_model import BaseModel
+
 """This module contains the entry point of the command interpreter"""
 
 
 class HBNBCommand(cmd.Cmd):
     """Entry point of the command interpreter"""
+
     prompt = "(hbnb)"
 
     def do_create(self, arg):
@@ -40,6 +42,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
                 return
+
     def do_destroy(self, arg):
         args = arg.split()
         if not arg:
@@ -62,10 +65,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
                 return
-     
-     
-     
-     
+
     def emptyline(self):
         """Do nothing on an empty line."""
         pass
@@ -83,5 +83,5 @@ class HBNBCommand(cmd.Cmd):
         cmd.Cmd.do_help(self, arg)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
