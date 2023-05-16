@@ -66,6 +66,18 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
                 return
 
+    def do_all(self, arg):
+        dict = models.storage.all()
+        args = arg.split()
+        if not args:
+            for key in dict:
+               print (dict[key])
+        if len(args) == 1 and args[0] == "BaseModel":
+            for key in dict:
+                print(dict[key])
+        if len(args) == 1 and args[0] != "BaseModel":
+            print("** class doesn't exist **")
+
     def emptyline(self):
         """Do nothing on an empty line."""
         pass
