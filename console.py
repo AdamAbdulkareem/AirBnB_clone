@@ -8,15 +8,15 @@ from models.base_model import BaseModel
 
 class HBNBCommand(cmd.Cmd):
     """Entry point of the command interpreter"""
-
+    global class_dict
+    class_dict = {"Place": "Place", "State": "State", "City": "City", "Amenity": "Amenity", "Review": "Review"}
     prompt = "(hbnb)"
-
     def do_create(self, arg):
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        if class_dict.get(arg) == None and arg:
             print("** class doesn't exist **")
-        else:
+        if class_dict.get(arg) == arg:
             new_instance = BaseModel()
             new_instance.save()
             print(new_instance.id)
