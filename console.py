@@ -71,12 +71,42 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if not args:
             for key in dict:
-               print (dict[key])
+                print(dict[key])
         if len(args) == 1 and args[0] == "BaseModel":
             for key in dict:
                 print(dict[key])
         if len(args) == 1 and args[0] != "BaseModel":
             print("** class doesn't exist **")
+
+    def do_update(self, arg):
+        dict = models.storage.all()
+        args = arg.split()
+
+        if not args:
+            print("** class name missing **")
+        if len(args) == 1 and args[0] != "BaseModel":
+            print("** class doesn't exist **")
+        if len(args) == 1 and args[0] == "BaseModel":
+            print("** instance id missing **")
+        if len(args) == 2:
+            key = args[0] + "." + str(args[1])
+            if key in dict:
+                print("** attribute name missing **")
+            else:
+                print("** no instance found **")
+        if len(args) == 3:
+            key = args[0] + "." + str(args[1])
+            if key in dict:
+                print("** value missing **")
+            else:
+                print("** no instance found **")
+        if len(args) >= 4:
+            key = args[0] + "." + str(args[1])
+            if key in dict:
+                dict[key].__dict__[args[2]] = args[3].strip('"')
+                models.storage.save()
+            else:
+                print("** no instance found **")
 
     def emptyline(self):
         """Do nothing on an empty line."""
