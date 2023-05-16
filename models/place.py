@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 """This is the module for place"""
-
-class State:
+from models.base_model import BaseModel
+class State(BaseModel):
     def __init__(self, city_id: str, user_id: str, name: str, description: str, number_rooms: int, number_bathrooms: int, max_guest: int, price_by_night: int, latitude: float, longitude: float, amenity_ids: list):
         """Instantiate the class"""
+        """Inherit all methods and properties from its parent"""
+        super().__init__()
         self.name = name
         self.city_id = city_id
         self.user_id = user_id
