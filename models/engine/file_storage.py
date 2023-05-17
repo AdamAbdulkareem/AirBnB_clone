@@ -1,7 +1,8 @@
 """This module convert the dictionary representation to a JSON string"""
 import json
+import os
 from models.base_model import BaseModel
-
+from models.user import User
 
 class FileStorage:
     """Serializes instances to a JSON file and Deserializes JSON file to instances"""
@@ -17,6 +18,7 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
+        """ serializes objectss to the JSON file (path: __file_path) """
         json_object = {}
 
         for key, value in self.__objects.items():
@@ -24,6 +26,7 @@ class FileStorage:
 
         with open(self.__file_path, mode="w", encoding="UTF8") as json_file:
             json.dump(json_object, json_file)
+   
 
     def reload(self):
         """deserializes the JSON file to __objects"""

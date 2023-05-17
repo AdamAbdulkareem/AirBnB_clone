@@ -4,7 +4,10 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    def __init__(self):
-        """Instantiate the class"""
-        """Inherit all methods and properties from its parent"""
-        super().__init__()
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
+    
+    
+    
