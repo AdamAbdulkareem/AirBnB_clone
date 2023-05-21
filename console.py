@@ -48,8 +48,11 @@ class HBNBCommand(cmd.Cmd):
             if key in dict:
                 print(dict[key])
             else:
-                print("** no instance found **")
-                return
+                if class_dict.get(args[0]) == None:
+                    print("** class doesn't exist **")
+                else:
+                    print("** no instance found **")
+                
 
     def do_destroy(self, arg):
         args = arg.split()
