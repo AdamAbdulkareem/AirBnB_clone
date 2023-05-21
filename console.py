@@ -8,8 +8,8 @@ from models.base_model import BaseModel
 
 class HBNBCommand(cmd.Cmd):
     """Entry point of the command interpreter"""
-    # global class_dict
-    # class_dict = {"Place": "Place", "State": "State", "City": "City", "Amenity": "Amenity", "Review": "Review"}
+    global class_dict
+    class_dict = {"BaseModel": "BaseModel", "User": "User"}
     prompt = "(hbnb)"
 
     def do_create(self, arg):
@@ -17,12 +17,12 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
         if len(args) == 1:
-            if args[0] != "BaseModel":
+            if class_dict.get(args[0]) == None:
                 print("** class doesn't exist **")
-        if arg == "BaseModel":
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
+            else:
+                new_instance = BaseModel()
+                new_instance.save()
+                print(new_instance.id)
 
     def do_show(self, arg):
         args = arg.split()
@@ -30,10 +30,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         if len(args) == 1:
-            if args[0] != "BaseModel":
+            if class_dict.get(args[0]) == None:
                 print("** class doesn't exist **")
         if len(args) == 1:
-            if args[0] == "BaseModel":
+            if class_dict.get(args[0]) == args[0]:
                 print("** instance id missing **")
 
         if len(args) == 2:

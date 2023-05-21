@@ -32,9 +32,13 @@ class FileStorage:
         """deserializes the JSON file to __objects"""
         try:
             with open(self.__file_path, "r", encoding="UTF8") as f:
-                # jlo = json.load(f)
                 for key, value in json.load(f).items():
-                    attri_value = eval(value["__class__"])(**value)
-                    self.__objects[key] = attri_value
+                    class_name = value.get("__class__")
+                    if class_name == "User":
+                        obj = User(**value)
+                        self.__objects[key] = obj
+                    else:
+                        obj = BaseModel(**value)
+                        self.__objects[key] = obj
         except FileNotFoundError:
             pass
