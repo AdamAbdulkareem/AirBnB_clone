@@ -3,13 +3,20 @@ import cmd
 import models
 from models.base_model import BaseModel
 from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+
 """This module contains the entry point of the command interpreter"""
 
 
 class HBNBCommand(cmd.Cmd):
     """Entry point of the command interpreter"""
     global class_dict
-    class_dict = {"BaseModel": "BaseModel", "User": "User"}
+    class_dict = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity,
+                  "City": City, "Place": Place, "Review": Review, "State": State}
     prompt = "(hbnb)"
 
     def do_create(self, arg):
@@ -17,18 +24,13 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
         if len(args) == 1:
-            # if class_dict.get(args[0]) == None:
-            #     print("** class doesn't exist **")
-            if class_dict.get(args[0]) == "BaseModel":
-                new_instance = BaseModel()
-                new_instance.save()
-                print(new_instance.id)
-            elif class_dict.get(args[0]) == "User":
-                new_instance = User()
-                new_instance.save()
-                print(new_instance.id)
-            else:
-                print("** class doesn't exist **")
+            for key, value in class_dict.items():
+                if args[0] == key:
+                    new_instance = value()
+                    new_instance.save()
+                    print(new_instance.id)
+                    return
+            print("** class doesn't exist **")
 
     def do_show(self, arg):
         args = arg.split()
@@ -36,11 +38,11 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         if len(args) == 1:
-            if class_dict.get(args[0]) == None:
-                print("** class doesn't exist **")
-        if len(args) == 1:
-            if class_dict.get(args[0]) == args[0]:
-                print("** instance id missing **")
+            for key, value in class_dict.items():
+                if key == args[0]:
+                    print("** instance id missing **")
+                    return
+            print("** class doesn't exist **")
 
         if len(args) == 2:
             dict = models.storage.all()
@@ -48,11 +50,11 @@ class HBNBCommand(cmd.Cmd):
             if key in dict:
                 print(dict[key])
             else:
-                if class_dict.get(args[0]) == None:
-                    print("** class doesn't exist **")
-                else:
-                    print("** no instance found **")
-                
+                for key, value in class_dict.items():
+                    if key == args[0]:
+                        print("** no instance found **")
+                        return
+                print("** class doesn't exist **")
 
     def do_destroy(self, arg):
         args = arg.split()
@@ -60,11 +62,12 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         if len(args) == 1:
-            if class_dict.get(args[0]) == None:
-                print("** class doesn't exist **")
-            if class_dict.get(args[0]) == args[0]:
-                print("** instance id missing **")
-        
+            for key, value in class_dict.items():
+                if key == args[0]:
+                    print("** instance id missing **")
+                    return
+            print("** class doesn't exist **")
+
         if len(args) == 2:
             dict = models.storage.all()
             key = args[0] + "." + str(args[1])
@@ -72,10 +75,11 @@ class HBNBCommand(cmd.Cmd):
                 del dict[key]
                 models.storage.save()
             else:
-                if class_dict.get(args[0]) == None:
-                   print("** class doesn't exist **")
-                else:
-                    print("** no instance found **")
+                for key, value in class_dict.items():
+                    if key == args[0]:
+                        print("** no instance found **")
+                        return
+                print("** class doesn't exist **")
 
     def do_all(self, arg):
         dict = models.storage.all()
@@ -83,10 +87,12 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             for key in dict:
                 print(dict[key])
-        if len(args) == 1 and class_dict.get(args[0]) == args[0]:
-            for key in dict:
-                print(dict[key])
-        if len(args) == 1 and class_dict.get(args[0]) == None:
+        if len(args) == 1:
+            for key, value in class_dict.items():
+                if key == args[0]:
+                    for key in dict:
+                        print(dict[key])
+                    return
             print("** class doesn't exist **")
 
     def do_update(self, arg):
@@ -95,16 +101,25 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-        if len(args) == 1 and class_dict.get(args[0]) == None:
+
+        if len(args) == 1:
+            for key, value in class_dict.items():
+                if key == args[0]:
+                    print("** instance id missing **")
+                    return
             print("** class doesn't exist **")
-        if len(args) == 1 and class_dict.get(args[0]) == args[0]:
-            print("** instance id missing **")
+
         if len(args) == 2:
             key = args[0] + "." + str(args[1])
             if key in dict:
                 print("** attribute name missing **")
-            else:
-                print("** no instance found **")
+                return
+            for key, value in class_dict.items():
+                if key == args[0]:
+                    print("** instance id missing **")
+                    return
+            print("** no instance found **")
+
         if len(args) == 3:
             key = args[0] + "." + str(args[1])
             if key in dict:
@@ -117,10 +132,11 @@ class HBNBCommand(cmd.Cmd):
                 dict[key].__dict__[args[2]] = args[3].strip('"')
                 models.storage.save()
             else:
-                if class_dict.get(args[0]) == None:
-                   print("** class doesn't exist **")
-                else:
-                   print("** no instance found **")
+                for key, value in class_dict.items():
+                    if key == args[0]:
+                        print("** no instance found **")
+                        return
+                print("** class doesn't exist **")
 
     def emptyline(self):
         """Do nothing on an empty line."""
