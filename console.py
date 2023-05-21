@@ -114,7 +114,10 @@ class HBNBCommand(cmd.Cmd):
                 dict[key].__dict__[args[2]] = args[3].strip('"')
                 models.storage.save()
             else:
-                print("** no instance found **")
+                if class_dict.get(args[0]) == None:
+                   print("** class doesn't exist **")
+                else:
+                   print("** no instance found **")
 
     def emptyline(self):
         """Do nothing on an empty line."""
