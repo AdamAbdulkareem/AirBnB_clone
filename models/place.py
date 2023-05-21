@@ -2,7 +2,7 @@
 """This is the module for place"""
 from models.base_model import BaseModel
     
-class User(BaseModel):
+class Place(BaseModel):
     city_id = ""
     user_id = ""
     name = ""
