@@ -2,7 +2,7 @@
 import cmd
 import models
 from models.base_model import BaseModel
-
+from models.user import User
 """This module contains the entry point of the command interpreter"""
 
 
@@ -17,12 +17,18 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
         if len(args) == 1:
-            if class_dict.get(args[0]) == None:
-                print("** class doesn't exist **")
-            else:
+            # if class_dict.get(args[0]) == None:
+            #     print("** class doesn't exist **")
+            if class_dict.get(args[0]) == "BaseModel":
                 new_instance = BaseModel()
                 new_instance.save()
                 print(new_instance.id)
+            elif class_dict.get(args[0]) == "User":
+                new_instance = User()
+                new_instance.save()
+                print(new_instance.id)
+            else:
+                print("** class doesn't exist **")
 
     def do_show(self, arg):
         args = arg.split()
@@ -38,7 +44,6 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) == 2:
             dict = models.storage.all()
-            # Key has format <className>.id
             key = args[0] + "." + str(args[1])
             if key in dict:
                 print(dict[key])
@@ -52,15 +57,13 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         if len(args) == 1:
-            if args[0] != "BaseModel":
+            if class_dict.get(args[0]) == None:
                 print("** class doesn't exist **")
-        if len(args) == 1:
-            if args[0] == "BaseModel":
+            if class_dict.get(args[0]) == args[0]:
                 print("** instance id missing **")
 
         if len(args) == 2:
             dict = models.storage.all()
-            # Key has format <className>.id
             key = args[0] + "." + str(args[1])
             if key in dict:
                 del dict[key]
@@ -75,10 +78,10 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             for key in dict:
                 print(dict[key])
-        if len(args) == 1 and args[0] == "BaseModel":
+        if len(args) == 1 and class_dict.get(args[0]) == args[0]:
             for key in dict:
                 print(dict[key])
-        if len(args) == 1 and args[0] != "BaseModel":
+        if len(args) == 1 and class_dict.get(args[0]) == None:
             print("** class doesn't exist **")
 
     def do_update(self, arg):
@@ -87,9 +90,9 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-        if len(args) == 1 and args[0] != "BaseModel":
+        if len(args) == 1 and class_dict.get(args[0]) == None:
             print("** class doesn't exist **")
-        if len(args) == 1 and args[0] == "BaseModel":
+        if len(args) == 1 and class_dict.get(args[0]) == args[0]:
             print("** instance id missing **")
         if len(args) == 2:
             key = args[0] + "." + str(args[1])
