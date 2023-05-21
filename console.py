@@ -61,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             if class_dict.get(args[0]) == args[0]:
                 print("** instance id missing **")
-
+        
         if len(args) == 2:
             dict = models.storage.all()
             key = args[0] + "." + str(args[1])
@@ -69,8 +69,10 @@ class HBNBCommand(cmd.Cmd):
                 del dict[key]
                 models.storage.save()
             else:
-                print("** no instance found **")
-                return
+                if class_dict.get(args[0]) == None:
+                   print("** class doesn't exist **")
+                else:
+                    print("** no instance found **")
 
     def do_all(self, arg):
         dict = models.storage.all()
