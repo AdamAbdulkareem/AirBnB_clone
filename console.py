@@ -96,7 +96,21 @@ class HBNBCommand(cmd.Cmd):
                         return
             print("** class doesn't exist **")
     
-
+    
+    def do_count(self, arg):
+         dict = models.storage.all()
+         count = 0
+         if arg:
+            for key, value in class_dict.items():
+                    if key == arg:
+                        for key, value in dict.items():
+                            if key.split(".")[0] == arg:
+                                count = count + 1
+                        print(count)
+                        return
+            print("** class doesn't exist **")
+        
+         
     # def do_all(self, arg):
     #     print(arg)
         
