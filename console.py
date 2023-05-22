@@ -67,7 +67,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** instance id missing **")
                     return
             print("** class doesn't exist **")
-            
+
         if len(args) == 2:
             dict = models.storage.all()
             key = args[0] + "." + str(args[1])
@@ -80,41 +80,38 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
                         return
                 print("** class doesn't exist **")
-                
-    def  do_all(self, arg):
+
+    def do_all(self, arg):
         dict = models.storage.all()
         if not arg:
-           for key, value in dict.items():
-               print(value)
-        
+            for key, value in dict.items():
+                print(value)
+
         if arg:
             for key, value in class_dict.items():
-                    if key == arg:
-                        for key, value in dict.items():
-                            if key.split(".")[0] == arg:
-                                print(value)
-                        return
+                if key == arg:
+                    for key, value in dict.items():
+                        if key.split(".")[0] == arg:
+                            print(value)
+                    return
             print("** class doesn't exist **")
-    
-    
+
     def do_count(self, arg):
-         dict = models.storage.all()
-         count = 0
-         if arg:
+        dict = models.storage.all()
+        count = 0
+        if arg:
             for key, value in class_dict.items():
-                    if key == arg:
-                        for key, value in dict.items():
-                            if key.split(".")[0] == arg:
-                                count = count + 1
-                        print(count)
-                        return
+                if key == arg:
+                    for key, value in dict.items():
+                        if key.split(".")[0] == arg:
+                            count = count + 1
+                    print(count)
+                    return
             print("** class doesn't exist **")
-        
-         
+
     # def do_all(self, arg):
     #     print(arg)
-        
-        
+
     #     dict = models.storage.all()
     #     args = arg.split()
     #     if not args:
@@ -134,15 +131,14 @@ class HBNBCommand(cmd.Cmd):
 
         if not args:
             print("** class name missing **")
-            
+
         if len(args) == 1:
             for key, value in class_dict.items():
                 if key == args[0]:
                     print("** instance id missing **")
                     return
             print("** class doesn't exist **")
-             
-        
+
         if len(args) == 2:
             key = args[0] + "." + str(args[1])
             if key in dict:
@@ -153,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** instance id missing **")
                     return
             print("** no instance found **")
-            
+
         if len(args) == 3:
             key = args[0] + "." + str(args[1])
             if key in dict:
@@ -187,16 +183,21 @@ class HBNBCommand(cmd.Cmd):
     def do_help(self, arg):
         """Help command to display help"""
         cmd.Cmd.do_help(self, arg)
-    
+
     def precmd(self, arg):
         args = arg.split(".")
         if len(args) == 2:
             args_1 = args[0]
-            args_2 = args[1].split("()")[0]
-            line = f"{args_2} {args_1}"
+            args_2 = args[1].split("(")
+            args_3 = args_2[1].split(")")
+            line_1 = args_2[0]
+            line_2 = args_1
+            line_3 = args_3[0].strip('"')
+            line = f"{line_1} {line_2} {line_3}"
             return line
         else:
             return arg
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
