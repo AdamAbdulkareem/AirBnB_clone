@@ -212,6 +212,8 @@ class HBNBCommand(cmd.Cmd):
                 except:
                      line = f"{line_1} {line_2}"
                      return line
+                line = f"{line_1} {line_2} {line_3}"
+                return line
             line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
             return line
 
