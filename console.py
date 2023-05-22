@@ -207,8 +207,11 @@ class HBNBCommand(cmd.Cmd):
                 line_4 = args_3[1].split(",")[0]
                 line_5 = args_3[2]
             except IndexError:
-                line = f"{line_1} {line_2} {line_3}"
-                return line
+                try:
+                    line = f"{line_1} {line_2} {line_3}"
+                except:
+                     line = f"{line_1} {line_2}"
+                     return line
             line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
             return line
 
