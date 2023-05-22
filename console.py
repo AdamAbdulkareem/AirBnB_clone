@@ -9,7 +9,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 import shlex
-
+import re
 """This module contains the entry point of the command interpreter"""
 
 
@@ -169,6 +169,7 @@ class HBNBCommand(cmd.Cmd):
             key = args[0] + "." + str(args[1])
             if key in dict:
                 dict[key].__dict__[args[2]] = args[3].strip('"')
+                dict[key].__dict__[args[4]] = args[5].strip('"')
                 models.storage.save()
             else:
                 for key, value in class_dict.items():
@@ -193,32 +194,63 @@ class HBNBCommand(cmd.Cmd):
         """Help command to display help"""
         cmd.Cmd.do_help(self, arg)
 
+    # def precmd(self, arg):
+    #     args = arg.split(".")
+    #     if len(args) == 2:
+    #         args_1 = args[0]
+    #         args_2 = args[1].split("(")
+    #         args_3 = shlex.split(args_2[1].split(")")[0])
+
+    #         line_1 = args_2[0]
+    #         line_2 = args_1
+    #         try:
+    #             line_3 = args_3[0].split(",")[0]
+    #             line_4 = args_3[1].split(",")[0]
+    #             line_5 = args_3[2]
+    #         except IndexError:
+    #             try:
+    #                 line = f"{line_1} {line_2} {line_3}"
+    #             except:
+    #                  line = f"{line_1} {line_2}"
+    #                  return line
+    #             line = f"{line_1} {line_2} {line_3}"
+    #             return line
+    #         line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
+    #         return line
+
+    #     else:
+    #         return arg
     def precmd(self, arg):
         args = arg.split(".")
         if len(args) == 2:
-            args_1 = args[0]
-            args_2 = args[1].split("(")
-            args_3 = shlex.split(args_2[1].split(")")[0])
+            line_args = []
+            args_1, args_2 = args
+            command, args_3 = args_2.split("(")
+            args_3 = shlex.split(args_3.split(")")[0])
 
-            line_1 = args_2[0]
+            line_1 = command
             line_2 = args_1
-            try:
-                line_3 = args_3[0].split(",")[0]
-                line_4 = args_3[1].split(",")[0]
-                line_5 = args_3[2]
-            except IndexError:
-                try:
-                    line = f"{line_1} {line_2} {line_3}"
-                except:
-                     line = f"{line_1} {line_2}"
-                     return line
-                line = f"{line_1} {line_2} {line_3}"
-                return line
-            line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
-            return line
+            line_args.append(line_1)
+            line_args.append(line_2)
+            if len(args_3) >= 3:
+                line_3 = args_3[0].replace(",","")
+                line_4 = re.sub('[^a-zA-Z0-9]', '', args_3[1])
+                line_5 = re.sub('[^a-zA-Z0-9]', '', args_3[2])
 
-        else:
-            return arg
+                line_args.append(line_3)
+                line_args.append(line_4)
+                line_args.append(line_5)
+                if args_3[3:] != []:
+                    for items in args_3[3:]:
+                        items = re.sub('[^a-zA-Z0-9]', '', items)
+                        line_args.append(items)
+                else:
+                    line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
+                    return line
+                line = f"{' '.join(line_args)}"
+                return line
+            print(line_args)
+        return arg
 
 
 if __name__ == "__main__":
