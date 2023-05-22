@@ -9,14 +9,23 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 import shlex
+
 """This module contains the entry point of the command interpreter"""
 
 
 class HBNBCommand(cmd.Cmd):
     """Entry point of the command interpreter"""
+
     global class_dict
-    class_dict = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity,
-                  "City": City, "Place": Place, "Review": Review, "State": State}
+    class_dict = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "Amenity": Amenity,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+    }
     prompt = "(hbnb)"
 
     def do_create(self, arg):
