@@ -8,7 +8,7 @@ from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
-
+import shlex
 """This module contains the entry point of the command interpreter"""
 
 
@@ -189,12 +189,20 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 2:
             args_1 = args[0]
             args_2 = args[1].split("(")
-            args_3 = args_2[1].split(")")
+            args_3 = shlex.split(args_2[1].split(")")[0])
+
             line_1 = args_2[0]
             line_2 = args_1
-            line_3 = args_3[0].strip('"')
-            line = f"{line_1} {line_2} {line_3}"
+            try:
+                line_3 = args_3[0].split(",")[0]
+                line_4 = args_3[1].split(",")[0]
+                line_5 = args_3[2]
+            except IndexError:
+                line = f"{line_1} {line_2} {line_3}"
+                return line
+            line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
             return line
+
         else:
             return arg
 
