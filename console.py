@@ -249,7 +249,6 @@ class HBNBCommand(cmd.Cmd):
                     return line
                 line = f"{' '.join(line_args)}"
                 return line
-            print(line_args)
         return arg
 
 
