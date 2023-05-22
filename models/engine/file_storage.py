@@ -24,7 +24,7 @@ class FileStorage:
         self.__objects[key] = obj
 
     def save(self):
-        """ serializes objectss to the JSON file (path: __file_path) """
+        """serializes objectss to the JSON file (path: __file_path)"""
         json_object = {}
 
         for key, value in self.__objects.items():
@@ -50,19 +50,19 @@ class FileStorage:
                     if class_name == "City":
                         obj = City(**value)
                         self.__objects[key] = obj
-                        
+
                     if class_name == "Place":
                         obj = Place(**value)
                         self.__objects[key] = obj
-                        
+
                     if class_name == "Review":
                         obj = Review(**value)
                         self.__objects[key] = obj
-                        
+
                     if class_name == "State":
                         obj = User(**value)
                         self.__objects[key] = obj
-                        
+
                     if class_name == "State":
                         obj = State(**value)
                         self.__objects[key] = obj
