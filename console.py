@@ -137,7 +137,6 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         dict = models.storage.all()
         args = arg.split()
-
         if not args:
             print("** class name missing **")
 
@@ -166,10 +165,14 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
         if len(args) >= 4:
+            print(arg)
+            print(args)
             key = args[0] + "." + str(args[1])
             if key in dict:
-                dict[key].__dict__[args[2]] = args[3].strip('"')
-                dict[key].__dict__[args[4]] = args[5].strip('"')
+                for i in range(2, len(args), 2):
+                    attribute = args[i]
+                    value = args[i+1]
+                    dict[key].__dict__[attribute] = value
                 models.storage.save()
             else:
                 for key, value in class_dict.items():
@@ -194,61 +197,42 @@ class HBNBCommand(cmd.Cmd):
         """Help command to display help"""
         cmd.Cmd.do_help(self, arg)
 
-    # def precmd(self, arg):
-    #     args = arg.split(".")
-    #     if len(args) == 2:
-    #         args_1 = args[0]
-    #         args_2 = args[1].split("(")
-    #         args_3 = shlex.split(args_2[1].split(")")[0])
-
-    #         line_1 = args_2[0]
-    #         line_2 = args_1
-    #         try:
-    #             line_3 = args_3[0].split(",")[0]
-    #             line_4 = args_3[1].split(",")[0]
-    #             line_5 = args_3[2]
-    #         except IndexError:
-    #             try:
-    #                 line = f"{line_1} {line_2} {line_3}"
-    #             except:
-    #                  line = f"{line_1} {line_2}"
-    #                  return line
-    #             line = f"{line_1} {line_2} {line_3}"
-    #             return line
-    #         line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
-    #         return line
-
-    #     else:
-    #         return arg
     def precmd(self, arg):
         args = arg.split(".")
         if len(args) == 2:
             line_args = []
             args_1, args_2 = args
             command, args_3 = args_2.split("(")
-            args_3 = shlex.split(args_3.split(")")[0])
-
-            line_1 = command
-            line_2 = args_1
-            line_args.append(line_1)
-            line_args.append(line_2)
-            if len(args_3) >= 3:
-                line_3 = args_3[0].replace(",","")
-                line_4 = re.sub('[^a-zA-Z0-9]', '', args_3[1])
-                line_5 = re.sub('[^a-zA-Z0-9]', '', args_3[2])
-
-                line_args.append(line_3)
-                line_args.append(line_4)
-                line_args.append(line_5)
-                if args_3[3:] != []:
-                    for items in args_3[3:]:
-                        items = re.sub('[^a-zA-Z0-9]', '', items)
-                        line_args.append(items)
-                else:
-                    line = f"{line_1} {line_2} {line_3} {line_4} {line_5}"
-                    return line
-                line = f"{' '.join(line_args)}"
+            args_3 = shlex.split(args_3)
+            if len(args_3) == 1:
+                args_3 = args_3[0].replace(")", "")
+                line = f"{command} {args_1} {args_3}"
                 return line
+
+            else:
+                line_1 = command
+                line_2 = args_1
+                line_args.append(line_1)
+                line_args.append(line_2)
+                item_1 = args_3[1]
+                item_2 = "{"
+                if item_2 not in item_1:
+                    line_args.append(re.sub(r'[,()]', '', args_3[0]))
+                    line_args.append(re.sub(r'[,()]', '', args_3[1]))
+                    try:
+                        line_args.append(re.sub(r'[,()]', '', args_3[2]))
+                    except IndexError:
+                        pass
+
+                    line = f"{' '.join(line_args)}"
+                    return line
+
+                if item_2 in item_1:
+                    for i in range(0, len(args_3)):
+                        formatted_args = re.sub(r'[{}():,]', '', args_3[i])
+                        line_args.append(formatted_args)
+                        line = f"{' '.join(line_args)}"
+                    return line
         return arg
 
 
